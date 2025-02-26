@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-
+from python.european.european_pricing import EuropeanOptionPricer
 
 def verify_european_parity(S0_list, sigma_list, r, K, T, n, m, X):
     """
@@ -19,7 +19,7 @@ def verify_european_parity(S0_list, sigma_list, r, K, T, n, m, X):
     put_prices  = np.zeros((numS0, numSig))
     
     # Loop over combinations of S0 and sigma:
-    for i, s0 in enumerate(S0_list):_
+    for i, s0 in enumerate(S0_list):
         for j, sigma in enumerate(sigma_list):
             pricer = EuropeanOptionPricer(s0, sigma, r, K, T, n, m, X)
             call_price, _, _, _ = pricer.crank_nicolson_call(n, m)
@@ -36,5 +36,5 @@ def verify_european_parity(S0_list, sigma_list, r, K, T, n, m, X):
             error = diff - theory
             records.append([s0, sigma, call_prices[i, j], put_prices[i, j], diff, theory, error])
     
-    df = pd.DataFrame(records, columns=['S0', 'sigma', 'Call', 'Put', '(Call-Put)', 'Theory', 'Error'])
+    df = pd.DataFrame(records, columns=['S0', 'sigma', 'Call', 'Put', '(Call-Put)FD', 'Theory', 'Error'])
     return df

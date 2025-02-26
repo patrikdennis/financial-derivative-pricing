@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import numpy as np
 import pandas as pd
-from option_pricing import AsianOptionPricer
-from utils.verification import verify_arithmetic_parity
+from asian_pricing import AsianOptionPricer
+from utils.asian.verification import verify_arithmetic_parity
 from utils.plotting import plot_parity_vs_S0, plot_parity_vs_sigma
 
 def main():
@@ -33,8 +33,8 @@ def main():
     print("Arithmetic Put–Call Parity Comparison for Asian Options")
     print(parityTable)
     
-    plot_parity_vs_S0(parityTable, sigma_val=0.2)
-    plot_parity_vs_sigma(parityTable, S0_val=100)
+    plot_parity_vs_S0(parityTable, sigma_val=0.2, computation_methods = ['MC', 'FD'])
+    plot_parity_vs_sigma(parityTable, S0_val=100, computation_methods = ['MC', 'FD'])
 
 if __name__ == '__main__':
     main()

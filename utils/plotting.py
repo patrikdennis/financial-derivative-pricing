@@ -2,11 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
 
-def plot_parity_vs_S0(parityTable, sigma_val):
+def plot_parity_vs_S0(parityTable, sigma_val, computation_methods=['MC', 'FD']):
     temp = parityTable[np.abs(parityTable['sigma'] - sigma_val) < 1e-8].sort_values('S0')
     plt.figure(figsize=(8,6))
-    plt.plot(temp['S0'], temp['(Call-Put)MC'], 'r-o', label='MC: Call-Put', linewidth=1.5)
-    plt.plot(temp['S0'], temp['(Call-Put)FD'], 'b-o', label='FD: Call-Put', linewidth=1.5)
+    if 'MC' in computation_methods:
+        plt.plot(temp['S0'], temp['(Call-Put)MC'], 'r-o', label='MC: Call-Put', linewidth=1.5)
+    if 'FD' in computation_methods:
+        plt.plot(temp['S0'], temp['(Call-Put)FD'], 'b-o', label='FD: Call-Put', linewidth=1.5)
     plt.plot(temp['S0'], temp['Theory'], 'k--', label='Theory', linewidth=1.5)
     plt.xlabel('Initial Stock Price S0')
     plt.ylabel('Call - Put')
@@ -15,11 +17,13 @@ def plot_parity_vs_S0(parityTable, sigma_val):
     plt.grid(True)
     plt.show()
 
-def plot_parity_vs_sigma(parityTable, S0_val):
+def plot_parity_vs_sigma(parityTable, S0_val, computation_methods=['MC', 'FD']):
     temp = parityTable[np.abs(parityTable['S0'] - S0_val) < 1e-8].sort_values('sigma')
     plt.figure(figsize=(8,6))
-    plt.plot(temp['sigma'], temp['(Call-Put)MC'], 'r-o', label='MC: Call-Put', linewidth=1.5)
-    plt.plot(temp['sigma'], temp['(Call-Put)FD'], 'b-o', label='FD: Call-Put', linewidth=1.5)
+    if 'MC' in computation_methods:
+        plt.plot(temp['sigma'], temp['(Call-Put)MC'], 'r-o', label='MC: Call-Put', linewidth=1.5)
+    if 'FD' in computation_methods:
+        plt.plot(temp['sigma'], temp['(Call-Put)FD'], 'b-o', label='FD: Call-Put', linewidth=1.5)
     plt.plot(temp['sigma'], temp['Theory'], 'k--', label='Theory', linewidth=1.5)
     plt.xlabel('Volatility sigma')
     plt.ylabel('Call - Put')
@@ -27,6 +31,7 @@ def plot_parity_vs_sigma(parityTable, S0_val):
     plt.legend(loc='best')
     plt.grid(True)
     plt.show()
+
 
 def plot_surface(S0_list, sigma_list, Z, title, zlabel):
     S0_arr = np.array(S0_list)
