@@ -17,7 +17,7 @@ int main() {
 
     // Monte Carlo and Finite Difference parameters
     int n_MC = 50, N_MC = 10000;
-    int n_FD = 100, m_FD = 100;
+    int n_FD = 126, m_FD = 10000;
 
     size_t numS0 = S0_list.size();
     size_t numSig = sigma_list.size();
