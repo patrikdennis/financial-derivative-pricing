@@ -39,29 +39,44 @@ std::vector<ParityRecord> verifyArithmeticParity(
     return table;
 }
 
-// Function to format the parity table as a string.
 std::string parityTableToString(const std::vector<ParityRecord>& table) {
     std::ostringstream ss;
-    ss << std::fixed << std::setprecision(6);
+
+    // We won't set a global format at the start,
+    // because we want to set it individually for each column.
+
+    // Column headers (you can keep them at a fixed width).
     ss << "Arithmetic Put-Call Parity Comparison for Asian Options\n";
-    ss << std::setw(8)  << "S0"
-       << std::setw(8)  << "sigma"
-       << std::setw(14) << "(Call-Put)MC"
-       << std::setw(14) << "(Call-Put)FD"
-       << std::setw(12) << "Theory"
-       << std::setw(12) << "ErrorMC"
-       << std::setw(12) << "ErrorFD" << "\n";
-    ss << std::string(8+8+14+14+12+12+12, '-') << "\n";
+    ss << std::setw(12) << "S0"
+       << std::setw(12) << "sigma"
+       << std::setw(15) << "(Call-Put)MC"
+       << std::setw(15) << "(Call-Put)FD"
+       << std::setw(15) << "Theory"
+       << std::setw(15) << "ErrorMC"
+       << std::setw(15) << "ErrorFD"
+       << "\n";
+
+    // Separator line
+    ss << std::string(12 + 12 + 15 + 15 + 15 + 15 + 15, '-') << "\n";
 
     for (const auto& rec : table) {
-        ss << std::setw(8)  << rec.s0
-           << std::setw(8)  << rec.sigma
-           << std::setw(14) << rec.callPutMC
-           << std::setw(14) << rec.callPutFD
-           << std::setw(12) << rec.theory
-           << std::setw(12) << rec.errorMC 
-           // something wrong with the below atm
-           << std::setw(12) << rec.errorFD << "\n";  
+        // 1) Print S0 in fixed, say 2 decimal places
+        ss << std::fixed << std::setprecision(2)
+           << std::setw(12) << rec.s0;
+
+        // 2) Print sigma in fixed, say 2 decimal places
+        ss << std::fixed << std::setprecision(2)
+           << std::setw(12) << rec.sigma;
+
+        // 3) Print the rest in scientific, e.g. 6 decimal places
+        ss << std::scientific << std::setprecision(6)
+           << std::setw(15) << rec.callPutMC
+           << std::setw(15) << rec.callPutFD
+           << std::setw(15) << rec.theory
+           << std::setw(15) << rec.errorMC
+           << std::setw(15) << rec.errorFD
+           << "\n";
     }
     return ss.str();
 }
+
