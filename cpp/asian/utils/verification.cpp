@@ -42,26 +42,26 @@ std::vector<ParityRecord> verifyArithmeticParity(
 // Function to format the parity table as a string.
 std::string parityTableToString(const std::vector<ParityRecord>& table) {
     std::ostringstream ss;
-    ss << std::fixed << std::setprecision(4);
+    ss << std::fixed << std::setprecision(6);
     ss << "Arithmetic Put-Call Parity Comparison for Asian Options\n";
     ss << std::setw(8)  << "S0"
        << std::setw(8)  << "sigma"
        << std::setw(14) << "(Call-Put)MC"
-       //<< std::setw(14) << "(Call-Put)FD"
+       << std::setw(14) << "(Call-Put)FD"
        << std::setw(12) << "Theory"
-       << std::setw(12) << "ErrorMC" << "\n";
-       // << std::setw(12) << "ErrorFD" << "\n";
+       << std::setw(12) << "ErrorMC"
+       << std::setw(12) << "ErrorFD" << "\n";
     ss << std::string(8+8+14+14+12+12+12, '-') << "\n";
 
     for (const auto& rec : table) {
         ss << std::setw(8)  << rec.s0
            << std::setw(8)  << rec.sigma
            << std::setw(14) << rec.callPutMC
-           //<< std::setw(14) << rec.callPutFD
+           << std::setw(14) << rec.callPutFD
            << std::setw(12) << rec.theory
-           << std::setw(12) << rec.errorMC << "\n";
+           << std::setw(12) << rec.errorMC 
            // something wrong with the below atm
-           //<< std::setw(12) << rec.errorFD << "\n";
+           << std::setw(12) << rec.errorFD << "\n";  
     }
     return ss.str();
 }

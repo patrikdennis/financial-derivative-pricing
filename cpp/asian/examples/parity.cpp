@@ -1,12 +1,18 @@
 #include <iostream>
 #include <vector>
-#include "../option_pricing.h"
+#include "../AsianOptionPricer.h"
 #include "../utils/verification.h"
 
 int main() {
     // Option and market parameters
-    double r = 0.05, K = 100, T = 1;
-    std::vector<double> S0_list = {80, 90, 100, 110, 120};
+    double r = 0.02;
+    double K = 40;
+    double T = 0.5;
+
+    // S0_list equivalent to [element + 1 for element in range(29, 35)] => [30, 31, 32, 33, 34, 35]
+    std::vector<double> S0_list = {30, 31, 32, 33, 34, 35};
+
+    // sigma_list as shown
     std::vector<double> sigma_list = {0.1, 0.2, 0.3, 0.4, 0.5};
 
     // Monte Carlo and Finite Difference parameters
