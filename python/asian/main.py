@@ -1,7 +1,7 @@
 import time
 import numpy as np
 import pandas as pd
-from asian_pricing import AsianOptionPricer
+from python.asian.AsianOptionPricer import AsianOptionPricer
 from utils.asian.verification import verify_arithmetic_parity
 from utils.plotting import (
     plot_parity_vs_S0,
@@ -14,14 +14,15 @@ from utils.plotting import (
 )
 def main():
     # Option and market parameters
-    r = 0.05
-    K = 100
-    T = 1
+    r = 0.02
+    K = 40
+    T = 1/2
     S0_list = [80, 90, 100, 110, 120]
+    S0_list = [element + 1 for element in range(29,35)]
     sigma_list = [0.1, 0.2, 0.3, 0.4, 0.5]
 
     # FD and MC parameters
-    n_FD = 100   # time steps for finite difference
+    n_FD = 126   # time steps for finite difference
     m_FD = 100   # space steps for finite difference
     n_MC = 50    # time steps for Monte Carlo
     N_MC = 10000 # number of Monte Carlo paths
@@ -73,21 +74,17 @@ def main():
     print(parityTable)
 
     # ----- 2. Generate Plots -----
-    # a) Parity vs. S0 for sigma = 0.2
-    plot_parity_vs_S0(parityTable, sigma_val=0.2)
-    # b) Parity vs. sigma for S0 = 100
-    plot_parity_vs_sigma(parityTable, S0_val=100)
-    # c) Surface plots for FD call and put prices
+    plot_parity_vs_S0(parityTable, sigma_val=0.1)
+    plot_parity_vs_sigma(parityTable, S0_val=30)
     plot_surface(S0_list, sigma_list, call_FD, 'Asian Call Price (FD)', 'Asian Call Price (FD)')
     plot_surface(S0_list, sigma_list, put_FD, 'Asian Put Price (FD)', 'Asian Put Price (FD)')
-    # d) CPU time comparison for S0 = 100
     S0_index = np.argmin(np.abs(np.array(S0_list) - 100))
     plot_cpu_time(sigma_list, time_FD, time_MC, S0_index)
     # e) FD vs. MC price difference for call options at S0 = 100
     plot_price_difference(sigma_list, call_FD, call_MC, S0_index)
     # f) Additional Plots: FDS vs. CVMC for varying S0 and sigma
-    plot_FDS_vs_CVMC_S0(S0_list, sigma_list, call_FD, put_FD, call_MC, put_MC, K, sigma_fixed=0.2)
-    plot_FDS_vs_CVMC_sigma(S0_list, sigma_list, call_FD, put_FD, call_MC, put_MC, K, S0_fixed=100)
+    plot_FDS_vs_CVMC_S0(S0_list, sigma_list, call_FD, put_FD, call_MC, put_MC, K=40, sigma_fixed=0.1)
+    plot_FDS_vs_CVMC_sigma(S0_list, sigma_list, call_FD, put_FD, call_MC, put_MC, K=40, S0_fixed=30)
 
 if __name__ == '__main__':
     main()
