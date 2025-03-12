@@ -1,7 +1,7 @@
 
 import numpy as np
-from asian_pricing import AsianOptionPricer
-from utils.plotting import plot_price_difference, plot_FDS_vs_CVMC_S0, plot_FDS_vs_CVMC_sigma
+from python.asian.AsianOptionPricer import AsianOptionPricer
+from python.utils.plotting import plot_price_difference, plot_FDS_vs_CVMC_S0, plot_FDS_vs_CVMC_sigma
 
 def main():
     # Option and market parameters for comparison

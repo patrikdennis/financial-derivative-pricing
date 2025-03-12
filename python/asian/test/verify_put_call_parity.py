@@ -2,8 +2,8 @@
 import numpy as np
 import pandas as pd
 from python.asian.AsianOptionPricer import AsianOptionPricer
-from utils.asian.verification import verify_arithmetic_parity
-from utils.plotting import plot_parity_vs_S0, plot_parity_vs_sigma
+from python.utils.asian.verification import verify_arithmetic_parity
+from python.utils.plotting import plot_parity_vs_S0, plot_parity_vs_sigma
 
 def main():
 
