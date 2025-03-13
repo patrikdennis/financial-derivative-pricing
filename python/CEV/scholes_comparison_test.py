@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.stats as st
-from CEVPricer  import CEVoptionPricer  # your FD implementation file
+from CEVPricer  import CEVoptionPricer  
 
 def black_scholes_call_put(s0, K, r, sigma, T):
     """
