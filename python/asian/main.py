@@ -2,8 +2,8 @@ import time
 import numpy as np
 import pandas as pd
 from python.asian.AsianOptionPricer import AsianOptionPricer
-from utils.asian.verification import verify_arithmetic_parity
-from utils.plotting import (
+from python.utils.asian.verification import verify_arithmetic_parity
+from python.utils.plotting import (
     plot_parity_vs_S0,
     plot_parity_vs_sigma,
     plot_surface,
@@ -17,15 +17,18 @@ def main():
     r = 0.02
     K = 40
     T = 1/2
-    S0_list = [80, 90, 100, 110, 120]
-    S0_list = [element + 1 for element in range(29,35)]
-    sigma_list = [0.1, 0.2, 0.3, 0.4, 0.5]
+    S0_list = [80, 90, 100, 110, 120,130]
+    #S0_list = [element + 1 for element in range(29,35)]
+    sigma_list = [0.1, 0.2, 0.3, 0.4, 0.5,0.6,0.7,0.8,0.9,1.0]
+    r = 0.05
+    K = 100
+    T = 1
 
     # FD and MC parameters
     n_FD = 126   # time steps for finite difference
-    m_FD = 100   # space steps for finite difference
+    m_FD = 10000   # space steps for finite difference
     n_MC = 50    # time steps for Monte Carlo
-    N_MC = 10000 # number of Monte Carlo paths
+    N_MC = 100000 # number of Monte Carlo paths
 
     numS0 = len(S0_list)
     numSig = len(sigma_list)
@@ -83,8 +86,8 @@ def main():
     # e) FD vs. MC price difference for call options at S0 = 100
     plot_price_difference(sigma_list, call_FD, call_MC, S0_index)
     # f) Additional Plots: FDS vs. CVMC for varying S0 and sigma
-    plot_FDS_vs_CVMC_S0(S0_list, sigma_list, call_FD, put_FD, call_MC, put_MC, K=40, sigma_fixed=0.1)
-    plot_FDS_vs_CVMC_sigma(S0_list, sigma_list, call_FD, put_FD, call_MC, put_MC, K=40, S0_fixed=30)
+    plot_FDS_vs_CVMC_S0(S0_list, sigma_list, call_FD, put_FD, call_MC, put_MC, K=110, sigma_fixed=0.2)
+    plot_FDS_vs_CVMC_sigma(S0_list, sigma_list, call_FD, put_FD, call_MC, put_MC, K=100, S0_fixed=100)
 
 if __name__ == '__main__':
     main()
