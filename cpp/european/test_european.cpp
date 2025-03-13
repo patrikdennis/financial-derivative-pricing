@@ -29,8 +29,12 @@ int main() {
     pricer.crankNicolsonPut(n, m, putPrice, solPut, space, time);
 
     // Output the computed prices.
-    cout << "European Call Price: " << callPrice << endl;
-    cout << "European Put Price:  " << putPrice << endl;
+    //cout << "European Call Price: " << callPrice << endl;
+    //cout << "European Put Price:  " << putPrice << endl;
+
+    // Print in CSV format with headers "Call" and "Put"
+    std::cout << "Call,Put\n";
+    std::cout << callPrice << "," << putPrice << "\n";
 
     return 0;
 }
