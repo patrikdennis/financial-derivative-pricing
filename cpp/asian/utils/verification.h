@@ -13,6 +13,10 @@ struct ParityRecord {
     double theory;      // Theoretical parity value
     double errorMC;     // callPutMC - theory
     double errorFD;     // callPutFD - theory
+    double callFD;
+    double putFD;
+    double callMC;
+    double putMC;
 };
 
 /**
@@ -42,6 +46,16 @@ std::vector<ParityRecord> verifyArithmeticParity(
     double r, double T, double K
 );
 
+std::vector<ParityRecord> priceExractor(
+     const std::vector<double>& S0_list,
+    const std::vector<double>& sigma_list,
+    const std::vector<std::vector<double>>& call_MC,
+    const std::vector<std::vector<double>>& put_MC,
+    const std::vector<std::vector<double>>& call_FD,
+    const std::vector<std::vector<double>>& put_FD,
+    double r, double T, double K
+); 
+
 /**
  * @brief Converts the parity table into a formatted string.
  * 
@@ -51,5 +65,6 @@ std::vector<ParityRecord> verifyArithmeticParity(
  * @return std::string  Formatted table as a string.
  */
 std::string parityTableToString(const std::vector<ParityRecord>& table);
+std::string priceTableToString(const std:: vector<ParityRecord>& table);
 
 #endif

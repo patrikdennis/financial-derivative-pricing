@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iomanip>
 #include <numeric>
+#include <vector>
 
 // Function to compute the parity table.
 std::vector<ParityRecord> verifyArithmeticParity(
@@ -38,6 +39,7 @@ std::vector<ParityRecord> verifyArithmeticParity(
     }
     return table;
 }
+
 
 std::string parityTableToString(const std::vector<ParityRecord>& table) {
     std::ostringstream ss;
@@ -79,4 +81,84 @@ std::string parityTableToString(const std::vector<ParityRecord>& table) {
     }
     return ss.str();
 }
+
+
+std::vector<ParityRecord> priceExractor(
+     const std::vector<double>& S0_list,
+    const std::vector<double>& sigma_list,
+    const std::vector<std::vector<double>>& call_MC,
+    const std::vector<std::vector<double>>& put_MC,
+    const std::vector<std::vector<double>>& call_FD,
+    const std::vector<std::vector<double>>& put_FD,
+    double r, double T, double K
+) {
+    std::vector<ParityRecord> table;
+    // Loop over each S0 value.
+    for (size_t i = 0; i < S0_list.size(); i++) {
+        double s0 = S0_list[i];
+        
+        // Loop over each sigma value.
+        for (size_t j = 0; j < sigma_list.size(); j++) {
+            ParityRecord rec;
+            rec.s0 = s0;
+            rec.sigma = sigma_list[j];
+
+            double price_call_FD = call_FD[i][j];
+            double price_put_FD = put_FD[i][j];
+            double price_call_MC = call_MC[i][j];
+            double price_put_MC = put_MC[i][j];
+
+            rec.callMC = price_call_MC;
+            rec.putMC = price_put_MC;
+            rec.callFD = price_call_FD;
+            rec.putFD = price_put_FD;
+
+            table.push_back(rec);
+        }
+    }
+    return table;
+}
+
+
+
+
+std::string priceTableToString(const std::vector<ParityRecord>& table) {
+    std::ostringstream ss;
+
+    // We won't set a global format at the start,
+    // because we want to set it individually for each column.
+
+    // Column headers (you can keep them at a fixed width).
+    ss << "Arithmetic Put-Call Parity Comparison for Asian Options\n";
+    ss << std::setw(12) << "S0"
+       << std::setw(12) << "sigma"
+       << std::setw(15) << "Call Price FD"
+       << std::setw(15) << "Put Price FD"
+       << std::setw(15) << "Call Price MC"
+       << std::setw(15) << "Put Price MC"
+       << "\n";
+
+    // Separator line
+    ss << std::string(12 + 12 + 15 + 15 + 15 + 15 + 15, '-') << "\n";
+
+    for (const auto& rec : table) {
+        // 1) Print S0 in fixed, say 2 decimal places
+        ss << std::fixed << std::setprecision(2)
+           << std::setw(12) << rec.s0;
+
+        // 2) Print sigma in fixed, say 2 decimal places
+        ss << std::fixed << std::setprecision(2)
+           << std::setw(12) << rec.sigma;
+
+        // 3) Print the rest in scientific, e.g. 6 decimal places
+        ss << std::scientific << std::setprecision(6)
+           << std::setw(15) << rec.callFD
+           << std::setw(15) << rec.putFD
+           << std::setw(15) << rec.callMC
+           << std::setw(15) << rec.putMC
+           << "\n";
+    }
+    return ss.str();
+}
+
 
