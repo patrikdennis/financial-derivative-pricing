@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.stats as st
-from CEV_pricing import CEVoptionPricer  # your FD implementation file
+from CEVPricer  import CEVoptionPricer  # your FD implementation file
 
 def black_scholes_call_put(s0, K, r, sigma, T):
     """
@@ -40,17 +40,17 @@ def compare_fd_bs():
     Also prints the absolute errors between the two methods.
     """
     # Parameters for the option
-    s0 = 100.0
-    sigma = 0.2
-    r = 0.05
-    K = 100.0
+    s0 = 30.0
+    sigma = 0.1
+    r = 0.02
+    K = 40.0
     T = 1.0
     delta = 1.0   # when delta = 1, the CEV model reduces to Black-Scholes
-    X = 3 * s0    # choose an upper bound for the asset price domain
+    X = 5 * s0    # choose an upper bound for the asset price domain
 
     # FD grid settings
-    n = 1000  # number of time steps
-    m = 500   # number of space steps
+    n = 126  # number of time steps
+    m = 10000  # number of space steps
 
     # Instantiate the CEV option pricer (which implements FD methods)
     pricer = CEVoptionPricer(s0, sigma, r, K, T, delta, X)
