@@ -346,7 +346,7 @@ double AsianOptionPricer::crankNicolsonAP(int n, int m, vector<vector<double>>& 
     }
     for (int i = 0; i <= n; i++) {
         sol[i][0] = 0.0;
-        sol[i][m] = -space[m];
+        sol[i][m] = space[m];
     }
     for (int i = 1; i <= n; i++) {
         int interior_size = m - 1;
