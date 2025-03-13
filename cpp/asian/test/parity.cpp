@@ -2,6 +2,8 @@
 #include <vector>
 #include "../AsianOptionPricer.h"
 #include "../utils/verification.h"
+#include <fstream>      // For std::ofstream
+#include <iomanip>  
 
 int main() {
     // Option and market parameters
@@ -55,6 +57,32 @@ int main() {
 
     // Print the table to the console.
     std::cout << tableStr << std::endl;
+
+    std::ofstream csvFile("parity_table.csv");
+    if (csvFile.is_open()) {
+        // Write a header row:
+        csvFile << "S0,sigma,CallMinusPut_MC,CallMinusPut_FD,Theory,ErrorMC,ErrorFD\n";
+
+        // Write each record as a line in the CSV:
+        for (const auto& rec : parityTable) {
+            // For S0 and sigma, we might want a certain precision:
+            csvFile << std::fixed << std::setprecision(2) << rec.s0 << ","
+                    << std::fixed << std::setprecision(2) << rec.sigma << ",";
+            // For the rest, we can do e.g. scientific or just default:
+            csvFile << std::scientific << std::setprecision(6) << rec.callPutMC << ","
+                    << std::scientific << std::setprecision(6) << rec.callPutFD << ","
+                    << std::scientific << std::setprecision(6) << rec.theory << ","
+                    << std::scientific << std::setprecision(6) << rec.errorMC << ","
+                    << std::scientific << std::setprecision(6) << rec.errorFD
+                    << "\n";
+        }
+        csvFile.close();
+        std::cout << "CSV file saved to parity_table.csv" << std::endl;
+    } else {
+        std::cerr << "Error: Could not open parity_table.csv for writing." << std::endl;
+    }
+
+    return 0;
 
     return 0;
 }
