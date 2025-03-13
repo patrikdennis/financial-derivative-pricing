@@ -219,7 +219,7 @@ class AsianOptionPricer:
             sol[0, j] = np.maximum(space[j], 0)
         for i in range(n + 1):
             sol[i, 0] = 0
-            sol[i, -1] = -space[-1]
+            sol[i, -1] = space[-1]
 
         for i in range(1, n + 1):
             d_vec_interior = np.zeros(m - 1)
