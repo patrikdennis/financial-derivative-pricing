@@ -11,7 +11,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/utils)
 
 # ------------------------------------------------------------------------------
-# (Optional) If you eventually want OpenMP:
+# (Optional) OpenMP only required for HPC implementation:
 # find_package(OpenMP REQUIRED)
 # set(USE_OPENMP FALSE)
 # if(OpenMP_CXX_FOUND)
@@ -19,7 +19,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/utils)
 # endif()
 
 # ------------------------------------------------------------------------------
-# Build a library from your main source files (both standard + HPC).
+
 # NOTE: If speed_test.cpp or other tests reference HPC code,
 #       you must include AsianOptionPricerHPC.cpp here.
 set(ASIAN_LIB_SOURCES
@@ -29,13 +29,13 @@ set(ASIAN_LIB_SOURCES
 )
 add_library(AsianPricerLib ${ASIAN_LIB_SOURCES})
 
-# If you wanted to link OpenMP, you’d do:
+# openmp not used in current build
 # if(USE_OPENMP)
 #   target_link_libraries(AsianPricerLib PUBLIC OpenMP::OpenMP_CXX)
 # endif()
 
 # ------------------------------------------------------------------------------
-# Now create separate executables for each test file, since each has its own main().
+# separate executables for each test file
 
 # 1) price_comparison
 add_executable(price_comparison
