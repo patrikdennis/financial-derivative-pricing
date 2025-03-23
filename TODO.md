@@ -1,0 +1,2 @@
+- Start by adding lookbacks.
+- Add more derivatives. 
